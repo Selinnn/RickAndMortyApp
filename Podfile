@@ -5,6 +5,7 @@ target 'RickAndMortyApp' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+   pod 'ExpyTableView'
    pod 'SnapKit', '~> 5.0.0'
 
   # Pods for RickAndMortyApp

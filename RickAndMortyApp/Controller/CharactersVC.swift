@@ -11,11 +11,15 @@ import SnapKit
 class CharactersVC: UIViewController {
     
     let viewModel: CharactersViewModel
+    let viewModel2: CharacterDetailViewModel
+    let viewModel3: CharacterDetailExpandVM
     var characters: Characters?
     var chModels = [CharacterModel]()
     
-    init(viewModel: CharactersViewModel) {
+    init(viewModel: CharactersViewModel, viewModel2: CharacterDetailViewModel, viewModel3: CharacterDetailExpandVM) {
         self.viewModel = viewModel
+        self.viewModel2 = viewModel2
+        self.viewModel3 = viewModel3
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,6 +32,7 @@ class CharactersVC: UIViewController {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationBar.topItem?.title = "Characters"
             navigationController?.navigationBar.layoutMargins.left = 30
+            navigationController?.navigationBar.barTintColor = .black
             
             let attributes = [
                 NSAttributedString.Key.foregroundColor : UIColor.white,
@@ -101,6 +106,11 @@ extension CharactersVC: UICollectionViewDelegate, UICollectionViewDataSource, UI
         cell.cellModel = viewModel.modelFor(row: indexPath.row)
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let userConVC = UINavigationController(rootViewController: CharacterDetailVC(characterID: characters?.results[indexPath.row].id ?? 0, viewModel: viewModel2, viewModel2: viewModel3))
+        userConVC.view.backgroundColor = UIColor(red: 19.0 / 255.0, green: 20.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
+        self.present(userConVC, animated: true, completion: nil)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width / 2 - 15, height: collectionView.frame.width / 2 + 10)
@@ -109,5 +119,6 @@ extension CharactersVC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 60
     }
+    
     
 }

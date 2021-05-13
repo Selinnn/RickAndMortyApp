@@ -16,7 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowsScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowsScene)
             let viewModel = CharactersViewModel()
-            let controller = CharactersVC(viewModel: viewModel)
+            let viewModel2 = CharacterDetailViewModel()
+            let viewModel3 = CharacterDetailExpandVM()
+            let controller = CharactersVC(viewModel: viewModel, viewModel2: viewModel2,viewModel3: viewModel3)
             let navController = UINavigationController(rootViewController: controller)
             window.rootViewController = navController
             self.window = window
