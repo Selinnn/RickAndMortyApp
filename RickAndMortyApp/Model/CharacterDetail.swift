@@ -15,3 +15,7 @@ struct CharacterDetail: Decodable {
     var gender: String
     var image: String
 }
+
+struct Episode: Decodable {
+    var name: String
+}

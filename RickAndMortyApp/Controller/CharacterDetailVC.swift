@@ -14,6 +14,7 @@ class CharacterDetailVC: UIViewController {
     var characterID = 0
     let viewModel: CharacterDetailViewModel
     let viewModel2: CharacterDetailExpandVM
+    var series = ""
     
     var characterDetail: CharacterDetail?
     var characterDetailModels = [CharacterDetailModels]()
@@ -103,12 +104,13 @@ class CharacterDetailVC: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: "Done"), style: .plain, target: self, action:#selector(doneClick))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor(red: 138.0 / 255.0, green: 103.0 / 255.0, blue: 190.0 / 255.0, alpha: 1.0)
-        
         tableView.reloadData()
     }
     
     func createModel() {
-        viewModel2.titles.append(contentsOf: characterDetail!.episode)
+        for i in 0..<characterDetail!.episode.count {
+            parseJson(url: URLRequest(url: URL(string: characterDetail!.episode[i])!))
+           }
         self.tableView.reloadData()
     }
     
@@ -125,10 +127,30 @@ class CharacterDetailVC: UIViewController {
            
        }
     
+    func parseJson(url: URLRequest) {
+        
+        let task = URLSession.shared.dataTask(
+                    with: url,
+                    completionHandler: { data, response, error in
+                        DispatchQueue.main.async(execute: {
+                            guard let data = data else { return }
+                            guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else { return }
+                            guard let jsonObj = json as? [String: Any] else { return }
+
+                            guard let s = jsonObj["name"] as? String else { return }
+
+                            print(s)
+                            self.series = s
+                            self.viewModel2.titles.append(self.series)
+                        })
+                
+                    })
+                task.resume()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(true)
-           
-           let postRequest = APIRequest(fullurl: "https://rickandmortyapi.com/api/character/\(characterID)")
+        let postRequest = APIRequest(fullurl: "https://rickandmortyapi.com/api/character/\(characterID)")
         postRequest.get(completion: { [self] result in
                switch result {
                case .success(let ch):
@@ -142,6 +164,7 @@ class CharacterDetailVC: UIViewController {
                     })
                     chType.text = "\(characterDetail!.status), \(characterDetail!.species)"
                     chGender.text = characterDetail?.gender
+                    
                                }
                case .failure(let error):
                    print("failure \(error)")

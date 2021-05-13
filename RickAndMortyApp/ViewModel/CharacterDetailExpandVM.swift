@@ -10,8 +10,8 @@ class CharacterDetailExpandVM {
     var titles = [String]()
 
     func modelFor(row: Int) -> CharacterDetailCell.Model {
-        let model = CharacterDetailCell.Model(title: titles[row])
-        return model
+            let model = CharacterDetailCell.Model(title: titles[row])
+            return model
     }
 }
 
