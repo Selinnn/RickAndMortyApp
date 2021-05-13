@@ -38,12 +38,28 @@ class CharacterImgView: UIView {
         }
     }
     
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+           URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+       }
+       func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+           getData(from: url) { data, response, error in
+               guard let data = data, error == nil else { return }
+               DispatchQueue.main.async() {
+                   completion(UIImage(data: data))
+               }
+           }
+           
+       }
+       
+    
     private func setupView(model: Model) {
         for (index,view) in imageViews.enumerated() {
-            let hasAnotherImage = model.characterImgs!.count > index
-            if hasAnotherImage {
-                view.image = model.characterImgs?[index]
+            downloadImage(from: URL(string: model.characterImgs ??  "https://rickandmortyapi.com/api/character/avatar/1.jpeg")!) { (img) in
+                view.image = img
             }
+               
+            
         }
     }
 
@@ -52,7 +68,7 @@ class CharacterImgView: UIView {
     }
     
     struct Model {
-        var characterImgs: [UIImage]?
+        var characterImgs: String
     }
 
     

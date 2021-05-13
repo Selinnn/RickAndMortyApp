@@ -11,6 +11,8 @@ import SnapKit
 class CharactersVC: UIViewController {
     
     let viewModel: CharactersViewModel
+    var characters: Characters?
+    var chModels = [CharacterModel]()
     
     init(viewModel: CharactersViewModel) {
         self.viewModel = viewModel
@@ -59,12 +61,39 @@ class CharactersVC: UIViewController {
         self.setUp()
        
        }
+    
+       func createModel() {
+        for i in 1..<characters!.results.count {
+            let ch = characters!.results[i]
+            viewModel.imagesNames.append(ch.image)
+            viewModel.titles.append(ch.name)
+           }
+           self.collectionView.reloadData()
+       }
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(true)
+           
+           let postRequest = APIRequest(fullurl: "https://rickandmortyapi.com/api/character")
+        postRequest.post(completion: { [self] result in
+               switch result {
+               case .success(let ch):
+                   print("success")
+                self.characters = ch
+                DispatchQueue.main.async {
+                    self.createModel()
+                               }
+               case .failure(let error):
+                   print("failure \(error)")
+               }
+           })
+       }
    
 }
 
 extension CharactersVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfRows()
+        return characters?.results.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
