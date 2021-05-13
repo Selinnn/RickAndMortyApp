@@ -23,6 +23,8 @@
 		B5E08058264D60DA00347C1F /* CharacterDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E08057264D60DA00347C1F /* CharacterDetailCell.swift */; };
 		B5E0805B264D645100347C1F /* CharacterDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E0805A264D645100347C1F /* CharacterDetailViewModel.swift */; };
 		B5E0805E264D6EBB00347C1F /* CharacterDetailExpandVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E0805D264D6EBB00347C1F /* CharacterDetailExpandVM.swift */; };
+		B5E08064264D707B00347C1F /* CharacterDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E08063264D707B00347C1F /* CharacterDetailModels.swift */; };
+		B5E0806C264D744E00347C1F /* CharacterDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E0806B264D744E00347C1F /* CharacterDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		B5E08057264D60DA00347C1F /* CharacterDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailCell.swift; sourceTree = "<group>"; };
 		B5E0805A264D645100347C1F /* CharacterDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailViewModel.swift; sourceTree = "<group>"; };
 		B5E0805D264D6EBB00347C1F /* CharacterDetailExpandVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailExpandVM.swift; sourceTree = "<group>"; };
+		B5E08063264D707B00347C1F /* CharacterDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailModels.swift; sourceTree = "<group>"; };
+		B5E0806B264D744E00347C1F /* CharacterDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 			children = (
 				B588175F264B09ED00A19FBA /* Character.swift */,
 				B5881766264C2BAE00A19FBA /* CharacterModel.swift */,
+				B5E08063264D707B00347C1F /* CharacterDetailModels.swift */,
+				B5E0806B264D744E00347C1F /* CharacterDetail.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -281,7 +287,9 @@
 				B5881760264B09ED00A19FBA /* Character.swift in Sources */,
 				B5881751264ACD6700A19FBA /* SceneDelegate.swift in Sources */,
 				B5E0805E264D6EBB00347C1F /* CharacterDetailExpandVM.swift in Sources */,
+				B5E08064264D707B00347C1F /* CharacterDetailModels.swift in Sources */,
 				B5E0805B264D645100347C1F /* CharacterDetailViewModel.swift in Sources */,
+				B5E0806C264D744E00347C1F /* CharacterDetail.swift in Sources */,
 				B5881764264B495900A19FBA /* APIRequest.swift in Sources */,
 				B5881757264ACF8E00A19FBA /* CharactersViewModel.swift in Sources */,
 			);

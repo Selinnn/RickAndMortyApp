@@ -11,9 +11,10 @@ import UIKit
 struct Characters: Decodable {
     var results: [CharactersResult]
 }
-
 struct CharactersResult: Decodable {
     var id: Int
     var name: String
     var image: String
 }
+
+

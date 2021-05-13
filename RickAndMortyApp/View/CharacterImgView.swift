@@ -56,12 +56,10 @@ class CharacterImgView: UIView {
     private func setupView(model: Model) {
         for (index,view) in imageViews.enumerated() {
             downloadImage(from: URL(string: model.characterImgs ??  "https://rickandmortyapi.com/api/character/avatar/1.jpeg")!) { (img) in
-                view.image = img
+                    view.image = img
+                }
             }
-               
-            
         }
-    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

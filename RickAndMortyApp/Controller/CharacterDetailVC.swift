@@ -15,6 +15,9 @@ class CharacterDetailVC: UIViewController {
     let viewModel: CharacterDetailViewModel
     let viewModel2: CharacterDetailExpandVM
     
+    var characterDetail: CharacterDetail?
+    var characterDetailModels = [CharacterDetailModels]()
+    
     init(characterID: Int, viewModel: CharacterDetailViewModel, viewModel2: CharacterDetailExpandVM) {
         self.characterID = characterID
         self.viewModel = viewModel
@@ -101,12 +104,50 @@ class CharacterDetailVC: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: "Done"), style: .plain, target: self, action:#selector(doneClick))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor(red: 138.0 / 255.0, green: 103.0 / 255.0, blue: 190.0 / 255.0, alpha: 1.0)
         
-        chName.text = "Morty Smith"
-        chImage.image = UIImage(named: "mom")
-        chType.text = "Alive, Human"
-        chGender.text = "Male"
         tableView.reloadData()
     }
+    
+    func createModel() {
+        viewModel2.titles.append(contentsOf: characterDetail!.episode)
+        self.tableView.reloadData()
+    }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+           URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+       }
+       func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+           getData(from: url) { data, response, error in
+               guard let data = data, error == nil else { return }
+               DispatchQueue.main.async() {
+                   completion(UIImage(data: data))
+               }
+           }
+           
+       }
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(true)
+           
+           let postRequest = APIRequest(fullurl: "https://rickandmortyapi.com/api/character/\(characterID)")
+        postRequest.get(completion: { [self] result in
+               switch result {
+               case .success(let ch):
+                   print("success")
+                self.characterDetail = ch
+                DispatchQueue.main.async {
+                    self.createModel()
+                    chName.text = characterDetail?.name
+                    downloadImage(from: URL(string: characterDetail?.image ?? "https://rickandmortyapi.com/api/character/avatar/1.jpeg")!, completion: { (img) in
+                        chImage.image = img
+                    })
+                    chType.text = "\(characterDetail!.status), \(characterDetail!.species)"
+                    chGender.text = characterDetail?.gender
+                               }
+               case .failure(let error):
+                   print("failure \(error)")
+               }
+           })
+       }
     
     @objc func doneClick() {
         self.dismiss(animated: true, completion: nil)
@@ -145,7 +186,7 @@ extension CharacterDetailVC: ExpyTableViewDataSource,ExpyTableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return characterDetail?.episode.count ?? 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

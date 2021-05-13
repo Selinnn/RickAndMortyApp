@@ -13,11 +13,14 @@ class CharactersViewModel {
     var titles = [String]()
 
     func modelFor(row: Int) -> CharactersCell.Model {
-        let collageModel = CharacterImgView.Model(characterImgs: imagesNames[row] as! String)
-        let model = CharactersCell.Model(title: titles[row], model: collageModel)
-        
+        if imagesNames.count > row {
+            let collageModel = CharacterImgView.Model(characterImgs: imagesNames[row] )
+            let model = CharactersCell.Model(title: titles[row], model: collageModel)
+            
+            return model
+        }
+        let collageModel = CharacterImgView.Model(characterImgs: "Error")
+        let model = CharactersCell.Model(title: "Error", model: collageModel)
         return model
     }
-  
-
 }

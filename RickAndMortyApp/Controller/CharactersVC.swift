@@ -68,7 +68,7 @@ class CharactersVC: UIViewController {
        }
     
        func createModel() {
-        for i in 1..<characters!.results.count {
+        for i in 0..<characters!.results.count {
             let ch = characters!.results[i]
             viewModel.imagesNames.append(ch.image)
             viewModel.titles.append(ch.name)
